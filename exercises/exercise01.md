@@ -27,7 +27,9 @@
 Why were these data types selected?
 
 ### Answer
-_Write your explanation here._
+The `Population` column uses `INT` because population values are whole numbers.  
+The `LifeExpectancy` column uses `DECIMAL(3,1)` because it represents measured values that include decimals.  
+Each data type matches the nature and precision of the stored data.
 
 ### Screenshot
 _Show the table structure or DESCRIBE output._
@@ -46,7 +48,11 @@ DESCRIBE country;
 Why do you think this data type was selected?
 
 ### Answer
-_Write your explanation here._
+The data type of `country.IndepYear` is `SMALLINT`.
+
+This data type was selected because `IndepYear` stores years as whole numbers, such as 1776 or 1962. A year does not require decimal values, and `SMALLINT` is sufficient to store year ranges while using less storage than a regular `INT`.
+
+Additionally, `SMALLINT` allows `NULL` values, which is important because some countries do not have an independence year.
 
 ### Screenshot
 
@@ -64,7 +70,10 @@ DESCRIBE country;
 Explain why your proposed data type might be better in some situations.
 
 ### Answer
-_Write your explanation here._
+
+A good alternative data type for `country.IndepYear` is `YEAR`.
+
+It can be better because it is specifically designed to store year values, making the column meaning clearer and helping validation (preventing unrealistic values). In databases that support `YEAR` well, it can also simplify year-based queries and improve consistency.
 
 ---
 
@@ -79,7 +88,7 @@ SELECT Name
 FROM city
 ORDER BY Name;
 ```
-
+This query selects the names of all cities from the city table and orders them alphabetically using the ORDER BY Name clause, which sorts text values in ascending (A–Z) order by default.
 ### Screenshot
 
 ![Q4 Screenshot](screenshots/q4_cities_sorted.png)
@@ -97,7 +106,7 @@ SELECT DISTINCT GovernmentForm
 FROM country
 ORDER BY GovernmentForm;
 ```
-
+This query retrieves all unique forms of government from the country table using DISTINCT to remove duplicates and orders them alphabetically with ORDER BY GovernmentForm.
 ### Screenshot
 
 ![Q5 Screenshot](screenshots/q5_government_forms.png)
@@ -115,7 +124,7 @@ SELECT Name
 FROM country
 WHERE Continent = 'Oceania';
 ```
-
+This query selects the names of all countries from the country table where the continent is Oceania, using a WHERE clause to filter the results.
 ### Screenshot
 
 ![Q6 Screenshot](screenshots/q6_oceania.png)
@@ -132,7 +141,7 @@ Write a SQL command to **list the names and country code of all cities**.
 SELECT Name, CountryCode
 FROM city;
 ```
-
+This query lists all cities in the database along with their associated country codes by selecting the Name and CountryCode columns from the city table.
 ### Screenshot
 
 ![Q7 Screenshot](screenshots/q7_city_countrycode.png)
@@ -144,12 +153,25 @@ FROM city;
 Write a SQL command to **update the city named `"Nashville-Davidson"` to `"Nashville"`**.
 
 ### SQL
-
 ```sql
+-- Find the city ID (primary key)
+SELECT ID, Name
+FROM city
+WHERE Name = 'Nashville-Davidson';
+
+-- Update safely using the primary key
 UPDATE city
 SET Name = 'Nashville'
-WHERE Name = 'Nashville-Davidson';
-```
+WHERE ID = 3814;
+
+-- Verify the update
+SELECT ID, Name
+FROM city
+WHERE ID = 3814;
+
+
+MySQL Safe Update Mode can block updates that do not use a key column.
+I first found the city’s primary key (ID), then updated the row safely using WHERE ID = 3814, and verified the change with a SELECT query.```
 
 ### Screenshot
 
