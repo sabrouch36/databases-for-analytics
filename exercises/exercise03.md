@@ -30,7 +30,8 @@ _Show evidence of how you determined this (for example, a count query)._
 
 ```javascript
 
-```db.restaurants.countDocuments()
+db.restaurants.countDocuments()
+
 
 
 ![Q1 Screenshot](screenshots/q1_document_count.png)
