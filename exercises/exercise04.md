@@ -31,9 +31,23 @@ Considering the World database, write a SQL statement that will **display the na
 ### SQL
 
 ```sql
--- Your SQL here
-```
+SELECT
+  c.name AS country_name,
+  COUNT(*) AS official_language_count
+FROM country AS c
+JOIN countrylanguage AS cl
+  ON cl.countrycode = c.code
+WHERE cl.isofficial = 'T'
+GROUP BY c.name
+HAVING COUNT(*) > 2
+ORDER BY official_language_count DESC, country_name;
 
+```
+The country table was joined with the countrylanguage table using the country code.
+Only official languages were included by filtering isofficial = 'T'.
+The results were grouped by country name to count the number of official languages per country.
+The HAVING clause was used to keep only countries with more than two official languages.
+The results were sorted in descending order based on the number of official languages.
 ### Screenshot
 
 ![Q1 Screenshot](screenshots/q1_official_language_counts.png)
@@ -50,7 +64,22 @@ After the `create_engine` command is executed, **what are the three statements r
 
 ```python
 # Your three Python statements here
-```
+```sql = """
+
+SELECT c.name AS country_name,
+       COUNT(*) AS official_language_count
+FROM country AS c
+JOIN countrylanguage AS cl
+  ON cl.countrycode = c.code
+WHERE cl.isofficial = 'T'
+GROUP BY c.name
+HAVING COUNT(*) > 2
+ORDER BY official_language_count DESC, country_name;
+"""
+
+df = pd.read_sql_query(sql, engine)
+
+df
 
 ### Screenshot
 
@@ -71,6 +100,22 @@ Using **Jupyter Notebooks**, write the Python code needed to produce the followi
 ```python
 # Your Python code here
 ```
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(10, 6))
+
+plt.bar(
+    df["country_name"],
+    df["official_language_count"]
+)
+
+plt.xlabel("Country")
+plt.ylabel("Number of Official Languages")
+plt.title("Countries with Multiple Official Languages")
+
+plt.xticks(rotation=45, ha="right")
+plt.tight_layout()
+plt.show()
 
 ### Screenshot
 
