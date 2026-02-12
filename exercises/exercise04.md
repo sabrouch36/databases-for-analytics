@@ -66,7 +66,7 @@ After the `create_engine` command is executed, **what are the three statements r
 # Your three Python statements here
 ```sql = """
 
-SELECT c.name AS country_name,
+# SELECT c.name AS country_name,
        COUNT(*) AS official_language_count
 FROM country AS c
 JOIN countrylanguage AS cl
@@ -80,7 +80,7 @@ ORDER BY official_language_count DESC, country_name;
 df = pd.read_sql_query(sql, engine)
 
 df
-
+##########################################################
 ### Screenshot
 
 ![Q2 Screenshot](screenshots/q2_jupyter_query_results.png)
