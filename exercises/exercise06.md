@@ -107,8 +107,7 @@ Save your diagram image in this repo and embed it below.
 
 #### Diagram
 
-![Star Schema Diagram](star-schema.png)
-
+![Star Schema Diagram](screenshots/star-schema.png)
 ---
 
 ### 2) Design Notes (Required)
@@ -121,4 +120,6 @@ In 1-2 short paragraphs, explain:
 
 #### Design Notes
 
-_Write your design notes here._
+I chose three dimensions: DIM_DATE, DIM_CUSTOMER, and DIM_PART. DIM_DATE supports month/quarter/year analysis, DIM_CUSTOMER supports customer-level analysis including zip_code, and DIM_PART supports product and category analysis (e.g., appliance).
+
+The grain of FACT_DAILYSALES is daily sales by Date + Customer + Part, aggregated from the operational orders and orderline tables. The fact table stores only quantity (total units sold) and amount (total revenue). This supports questions such as: units of part ax12 sold on 9/2/1994 (filter by date and part), how much customer 124 spent last year (filter by customer and year), and how many appliance items were sold during Q3 1994 (filter by category and quarter).
